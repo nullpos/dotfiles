@@ -68,3 +68,43 @@ set history=10000
 "ビープ音すべてを無効にする
 set visualbell t_vb=
 set noerrorbells "エラーメッセージの表示時にビープを鳴らさない
+
+au BufRead,BufNewFile,BufReadPre *.coffee   set filetype=coffee
+autocmd FileType coffee     setlocal sw=2 sts=2 ts=2 et
+" --------------------
+"     neobundle
+" --------------------
+set nocompatible
+filetype off
+
+if has('vim_starting')
+  set runtimepath+=~/.vim/bundle/neobundle.vim
+  call neobundle#begin(expand('~/.vim/bundle/'))
+endif
+
+" default
+NeoBundleFetch 'Shougo/neobundle.vim'
+NeoBundle 'Shougo/vimproc'                      " 非同期処理
+
+" edit
+NeoBundle 'yuroyoro/vim-autoclose'              " 閉じ括弧補完
+NeoBundle 'Shougo/neocomplcache.vim'            " 入力補完
+
+" display
+NeoBundle 'itchyny/lightline.vim'               " ステータスラインの設定
+NeoBundle 'nathanaelkane/vim-indent-guides'     " インデントレベル表示
+
+" syntax
+NeoBundle 'pbrisbin/vim-syntax-shakespeare'     " shakespeare
+
+
+" coffee
+NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'claco/jasmine.vim'
+NeoBundle 'nathanaelkane/vim-indent-guides'
+
+call neobundle#end()
+filetype plugin indent on
+filetype indent on
+NeoBundleCheck
+syntax on
