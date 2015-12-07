@@ -86,5 +86,24 @@ fi
 autoload -Uz pick-web-browser
 alias -s html=pick-web-browser
 
-#nodeberw
-export PATH=$HOME/.nodebrew/current/bin:$PATH
+#anyenv
+if [ -d ${HOME}/.anyenv ] ; then
+  export PATH="$HOME/.anyenv/bin:$PATH"
+  eval "$(anyenv init - zsh)"
+  for D in `ls $HOME/.anyenv/envs`
+  do
+    export PATH="$HOME/.anyenv/envs/$D/shims:$PATH"
+  done
+fi
+
+#cabal/bin
+export PATH="$HOME/.cabal/bin:$PATH"
+source /home/null44/.zsh/zaw/zaw.zsh
+
+#mikutter
+alias mikutter='ruby ~/app/mikutter/mikutter.rb &'
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+export LANG="ja_JP.utf8"
+export TERM="xterm-256color"

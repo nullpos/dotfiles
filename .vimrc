@@ -84,19 +84,73 @@ endif
 
 " default
 NeoBundleFetch 'Shougo/neobundle.vim'
+NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc'                      " 非同期処理
 
 " edit
 NeoBundle 'yuroyoro/vim-autoclose'              " 閉じ括弧補完
 NeoBundle 'Shougo/neocomplcache.vim'            " 入力補完
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplcache.
+let g:neocomplcache_enable_at_startup = 1
+" Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+" Define dictionary.
+let g:neocomplcache_dictionary_filetype_lists = {
+    \ 'default' : ''
+  \ }
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplcache#undo_completion()
+inoremap <expr><C-l>     neocomplcache#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplcache#smart_close_popup() . "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplcache#close_popup()
+inoremap <expr><C-e>  neocomplcache#cancel_popup()
 
 " display
 NeoBundle 'itchyny/lightline.vim'               " ステータスラインの設定
 NeoBundle 'nathanaelkane/vim-indent-guides'     " インデントレベル表示
+NeoBundle 'tomasr/molokai'                      " カラースキーマ
+NeoBundle 'ujihisa/unite-colorscheme'
+NeoBundle 'bling/vim-airline'
+
+" Airline {{{1
+function! AirlineInit()
+  let g:airline_section_a = airline#section#create(['mode', ' ', 'branch'])
+endfunction
+autocmd User AirlineAfterInit call AirlineInit()
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#tab_nr_type = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+set guifont=Ricty\ Discord\ Regular\ for\ Powerline:h14
+let g:Powerline_symbols = 'fancy'
+set t_Co=256
+let g:airline_theme='badwolf'
+let g:airline_left_sep = '⮀'
+let g:airline_right_sep = '⮂'
+"let g:airline_linecolumn_prefix = '⭡'
+"let g:airline_branch_prefix = '⭠'
+let g:airline#extensions#tabline#left_sep = '⮀'
+let g:airline#extensions#tabline#left_alt_sep = '⮀'
+" /=Airline }}}1
 
 " syntax
 NeoBundle 'pbrisbin/vim-syntax-shakespeare'     " shakespeare
-
 
 " coffee
 NeoBundle 'kchmck/vim-coffee-script'
@@ -107,4 +161,17 @@ call neobundle#end()
 filetype plugin indent on
 filetype indent on
 NeoBundleCheck
-syntax on
+
+colorscheme molokai
+if &term =~ "xterm-256color" || "screen-256color"
+  set t_Co=256
+  set t_Sf=[3%dm
+  set t_Sb=[4%dm
+elseif &term =~ "xterm-color"
+  set t_Co=8
+  set t_Sf=[3%dm
+  set t_Sb=[4%dm
+endif
+
+syntax enable
+hi PmenuSel cterm=reverse ctermfg=33 ctermbg=222 gui=reverse guifg=#3399ff guibg=#f0e68c
