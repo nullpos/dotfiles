@@ -157,6 +157,9 @@ NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'claco/jasmine.vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 
+" edit
+NeoBundle 'tpope/vim-surround'
+
 call neobundle#end()
 filetype plugin indent on
 filetype indent on
