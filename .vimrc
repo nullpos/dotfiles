@@ -2,7 +2,6 @@
 
 set number          " 行番号の表示
 set cursorline      " カーソル行の背景色を変える
-"set cursorcolumn    " カーソル位置のカラムの背景色を変える
 set laststatus=2    " ステータス行を常に表示
 set cmdheight=2     " メッセージ表示欄を２行確保
 set showmatch       " 対応する括弧を強調表示
@@ -24,8 +23,8 @@ set hidden     " 保存されていないファイルがあるときでも別の
 set autoread   "外部でファイルに変更がされた場合は読みなおす
 set nobackup   " ファイル保存時にバックアップファイルを作らない
 set noswapfile " ファイル編集中にスワップファイルを作らない
+set fileencodings=utf-8,iso-2022-jp,cp932,sjis,euc-jp
 set encoding=utf-8
-set fileencodings=iso-2022-jp,cp932,sjis,euc-jp,utf-8
 
 "検索/置換の設定
 
@@ -86,9 +85,12 @@ endif
 NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc'                      " 非同期処理
+NeoBundle 'thinca/vim-quickrun'
 
 " edit
 NeoBundle 'yuroyoro/vim-autoclose'              " 閉じ括弧補完
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'mattn/emmet-vim'                     " HTML input
 NeoBundle 'Shougo/neocomplcache.vim'            " 入力補完
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
@@ -118,7 +120,7 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplcache#close_popup()
+"inoremap <expr><C-y>  neocomplcache#close_popup()
 inoremap <expr><C-e>  neocomplcache#cancel_popup()
 
 " display
@@ -151,14 +153,17 @@ let g:airline#extensions#tabline#left_alt_sep = '⮀'
 
 " syntax
 NeoBundle 'pbrisbin/vim-syntax-shakespeare'     " shakespeare
+NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'othree/html5.vim'
+NeoBundle 'pangloss/vim-javascript'
 
 " coffee
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'claco/jasmine.vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 
-" edit
-NeoBundle 'tpope/vim-surround'
+" fzf
+NeoBundle 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 
 call neobundle#end()
 filetype plugin indent on
@@ -175,6 +180,7 @@ elseif &term =~ "xterm-color"
   set t_Sf=[3%dm
   set t_Sb=[4%dm
 endif
+
 
 syntax enable
 hi PmenuSel cterm=reverse ctermfg=33 ctermbg=222 gui=reverse guifg=#3399ff guibg=#f0e68c
