@@ -1,0 +1,122 @@
+[[plugins]]
+repo = 'Shougo/neoyank.vim'
+on_path = '.*'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'Shougo/neocomplete.vim'
+depends = 'context_filetype.vim'
+if = "has('lua')"
+on_i = 1
+hook_source = '''
+  let g:neocomplete#enable_at_startup = 1
+  source ~/.vim/dein/config/rc/neocomplete.rc.vim
+'''
+
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+depends = 'context_filetype.vim'
+if = "has('nvim')"
+on_i = 1
+hook_source = '''
+  let g:deoplete#enable_at_startup = 1
+  source ~/.vim/dein/config/rc/deoplete.rc.vim
+'''
+
+[[plugins]]
+repo = 'Shougo/neosnippet.vim'
+depends = ['neosnippet-snippets', 'context_filetype.vim']
+on_i = 1
+on_ft = 'snippet'
+hook_source = 'source ~/.vim/dein/config/rc/neosnippet.rc.vim'
+
+[[plugins]]
+repo = 'Shougo/unite.vim'
+depends = 'neomru.vim'
+hook_source = 'source ~/.vim/dein/config/rc/unite.rc.vim'
+hook_add = '''
+  nnoremap <silent> ;b
+        \ :<C-u>Unite -buffer-name=build`tabpagenr()` -no-quit build<CR>
+  nnoremap <silent> ;o
+        \ :<C-u>Unite outline -no-start-insert -resume<CR>
+  nnoremap <silent> <C-k>
+        \ :<C-u>Unite change jump<CR>
+  nnoremap <silent> ;g
+        \ :<C-u>Unite grep -buffer-name=grep`tabpagenr()`
+        \ -auto-preview -no-split -no-empty -resume<CR>
+  nnoremap <silent> ;r
+        \ :<C-u>Unite -buffer-name=register
+        \ -default-action=append register history/yank<CR>
+  xnoremap <silent> ;r
+        \ d:<C-u>Unite -buffer-name=register
+        \ -default-action=append register history/yank<CR>
+  nnoremap <silent> <C-t>
+        \ :<C-u>Unite -auto-resize -select=`tabpagenr()-1` tab<CR>
+  nnoremap <silent> <C-w>
+        \ :<C-u>Unite -force-immediately window:all:no-current<CR>
+  nnoremap <silent> [Window]s
+        \ :<C-u>Unite -buffer-name=files -no-split -multi-line -unique -silent
+        \ jump_point file_point file_mru
+        \ `finddir('.git', ';') != '' ? 'file_rec/git' : ''`
+        \ buffer_tab:- file file/new<CR>
+  nnoremap <silent> [Window]<Space>
+        \ :<C-u>Unite -buffer-name=files -path=~/.vim/rc file_rec<CR>
+  nnoremap <silent> [Window]n
+        \ :<C-u>Unite -start-insert -default-action=lcd dein<CR>
+  nnoremap <silent> [Window]g
+        \ :<C-u>Unite -start-insert ghq<CR>
+  nnoremap <silent> [Space]ft
+        \ :<C-u>Unite -start-insert filetype filetype/new<CR>
+  " Tag jump.
+  nnoremap <silent><expr> tt  &filetype == 'help' ?  "g\<C-]>" :
+        \ ":\<C-u>UniteWithCursorWord -buffer-name=tag -immediately
+        \  tag tag/include\<CR>"
+  nnoremap <silent><expr> tp  &filetype == 'help' ?
+        \ ":\<C-u>pop\<CR>" : ":\<C-u>Unite jump\<CR>"
+  " Execute help.
+  nnoremap <silent> <C-h>  :<C-u>Unite -buffer-name=help help<CR>
+  " Search.
+  nnoremap <silent> /
+        \ :<C-u>Unite -buffer-name=search%`bufnr('%')`
+        \ -start-insert line:forward:wrap<CR>
+  nnoremap <silent> *
+        \ :<C-u>UniteWithCursorWord -buffer-name=search%`bufnr('%')`
+        \ line:forward:wrap<CR>
+  nnoremap [Alt]/       /
+  nnoremap [Alt]?       ?
+  nnoremap <silent> n
+        \ :<C-u>UniteResume search%`bufnr('%')`
+        \  -no-start-insert -force-redraw<CR>
+'''
+
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
+[[plugins]]
+repo = 'Shougo/neco-syntax'
+on_i = 1
+
+[[plugins]]
+repo = 'fatih/vim-go'
+on_ft = 'go'
+
+[[plugins]]
+repo = 'osyo-manga/vim-monster'
+on_ft = 'ruby'
+
+[[plugins]]
+repo = 'davidhalter/jedi-vim'
+if = "!has('nvim')"
+on_ft = 'python'
+hook_source = '''
+  let g:jedi#completions_enabled = 0
+  let g:jedi#auto_vim_configuration = 0
+  let g:jedi#smart_auto_mappings = 0
+  let g:jedi#show_call_signatures = 0
+'''
+
+[[plugins]]
+repo = 'junegunn/fzf'
+if = 'executable("fzf")'
+directory = '~/.fzf'
+
