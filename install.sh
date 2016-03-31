@@ -1,8 +1,10 @@
 #!/usr/bin/sh
 
-CLONE_DIR="~/.config/dotfiles"
-DEIN_DIR="~/.vim/dein"
-NVIM_DIR="~/.config/nvim"
+CLONE_DIR="$HOME/.config/dotfiles"
+DEIN_DIR="$HOME/.vim/dein"
+NVIM_DIR="$HOME/.config/nvim"
+VIMRC="$HOME/.vimrc"
+ZSHRC="$HOME/.zshrc"
 
 # dotfiles
 echo "dotfiles install..."
@@ -14,15 +16,25 @@ else
   git pull origin master --rebase
 fi
 
-ln -s "$CLONE_DIR/dein/config/init.vim" "$NVIM_DIR/init.vim"
 ln -s "$CLONE_DIR/dein" "$DEIN_DIR"
-ln -s "$CLONE_DIR/dein/config/init.vim" "~/.vimrc"
-# ln -s "$CLONE_DIR/.vimrc" "~/.vimrc"
-ln -s "$CLONE_DIR/.zshrc" "~/.zshrc"
+if [ -e "$NVIM_DIR" ]; then
+  ln -s "$CLONE_DIR/dein/config/init.vim" "$NVIM_DIR/init.vim"
+fi
+
+if [ -e "$VIMRC" ]; then
+  mv "$VIMRC" "$VIMRC.old"
+fi
+ln -s "$CLONE_DIR/dein/config/init.vim" "$HOME/.vimrc"
+# ln -s "$CLONE_DIR/.vimrc" "$HOME/.vimrc"
+
+if [ -e "$ZSHRC" ]; then
+  mv "$ZSHRC" "$ZSHRC.old"
+fi
+ln -s "$CLONE_DIR/.zshrc" "$HOME/.zshrc"
 
 # fzf
 echo "fzf install..."
-FZF_DIR="~/.fzf"
+FZF_DIR="$HOME/.fzf"
 if ! [ -e "$FZF_DIR" ]; then
   git clone --depth 1 https://github.com/junegunn/fzf.git "$FZF_DIR"
 else
@@ -33,7 +45,7 @@ fi
 
 # zplug
 echo "zplug install..."
-ZPLUG_DIR="~/.zplug"
+ZPLUG_DIR="$HOME/.zplug"
 if ! [ -e "$ZPLUG_DIR" ]; then
   git clone https://github.com/b4b4r07/zplug "$ZPLUG_DIR"
 else
